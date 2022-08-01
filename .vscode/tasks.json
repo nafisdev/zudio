@@ -1,0 +1,16 @@
+{
+    "type": "docker-run",
+    "label": "docker-run: debug",
+    "dependsOn": [
+        "docker-build: debug"
+    ],
+    "dockerRun": {
+        "ports": [
+            { "hostPort": 5150, "containerPort": 5150}
+        ]
+    },
+    "netCore": {
+        "appProject": "${workspaceFolder}/zudio.api/zudio.api.csproj",
+        "enableDebugging": true
+    }
+}
