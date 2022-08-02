@@ -4,3 +4,5 @@ CREATE (ee:Product {name: "CMR",org:"OptumCare"})
 CREATE (ee:Analytics {name: "Medical Referral", notes:""})
 
 CREATE (ee:Analytics {name: "Practitioner", notes:""})
+
+![alt text](https://github.com/nafisdev/zudio/blob/main/poc.jpg?raw=true)
