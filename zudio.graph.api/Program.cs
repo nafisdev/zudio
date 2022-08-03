@@ -1,4 +1,9 @@
+using zudio.graph.api;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton<Neo4jClientImpl>();
+builder.Services.AddSingleton<CypherExec>();
+
 
 // Add services to the container.
 
