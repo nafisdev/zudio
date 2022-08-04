@@ -9,15 +9,30 @@ public class CypherExec
         _clientWrapper = clientWrapper;
     }
 
-    public async Task CreateNodeExecute(GraphPayload graphPayload)
+    public async Task CreateProductNodeExecute(GraphPayload graphPayload)
     {
 
-        string data = "productA";
+        string data1 = graphPayload.Data;
         IAsyncSession session = _clientWrapper.driver.AsyncSession(o => o.WithDatabase("neo4j"));
         try
         {
+            IResultCursor cursor = await session.RunAsync("CREATE (a:Product{name: $data1})", new{ data1});
+            await cursor.ConsumeAsync();
+        }
+        finally
+        {
+            await session.CloseAsync();
+        }
+        await _clientWrapper.driver.CloseAsync();
+    }
 
-            IResultCursor cursor = await session.RunAsync("CREATE (a:Product{name:$data})", new{ data});
+        public async Task CreateAnalyticsNodeExecute(GraphPayload graphPayload)
+    {
+        string data1 = graphPayload.Data;
+        IAsyncSession session = _clientWrapper.driver.AsyncSession(o => o.WithDatabase("neo4j"));
+        try
+        {
+            IResultCursor cursor = await session.RunAsync("CREATE (a:Analytics{name: $data1})", new{ data1});
             await cursor.ConsumeAsync();
         }
         finally

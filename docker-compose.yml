@@ -22,18 +22,18 @@ services:
       networks:
           - zudio-network
 
-  zudio_webapp:
-    container_name: "zudio_webapp"
-    build:
-      context: .
-    ports:
-      - "5400:5400"
-      - 443
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    command: dotnet run /app/zudio.api
-    networks:
-      - zudio-network
+  # zudio_webapp:
+  #   container_name: "zudio_webapp"
+  #   build:
+  #     context: .
+  #   ports:
+  #     - "5400:5400"
+  #     - 443
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #   command: dotnet run /app/zudio.api
+  #   networks:
+  #     - zudio-network
       #   depends_on:
     #     - neo
 

@@ -28,9 +28,16 @@ public class ZudioGraphController : ControllerBase
     }
 
     
-    [HttpPost(Name = "AddProductToGraph")]
-    public void Add(GraphPayload graphPayload)
+    [HttpPost("/Products",Name = "AddProductToGraph")]
+    public void AddProducts(GraphPayload graphPayload)
     {
-         _cypherExec.CreateNodeExecute(graphPayload);
+         _cypherExec.CreateProductNodeExecute(graphPayload);
+    }
+
+        
+    [HttpPost("/Analytics",Name = "AddAnalyticsToGraph")]
+    public void AddAnalytics(GraphPayload graphPayload)
+    {
+         _cypherExec.CreateAnalyticsNodeExecute(graphPayload);
     }
 }
