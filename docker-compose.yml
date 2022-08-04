@@ -37,22 +37,21 @@ services:
       #   depends_on:
     #     - neo
 
-    # webapp:
-    #   build:
-    #     context: .
-    #   container_name: "zudio_backend"
-    #   ports:
-    #     - 80
-    #     - 443
-    #   environment:
-    #     - ASPNETCORE_ENVIRONMENT=Development
-    #     - ASPNETCORE_URLS=http://+:80
-    #   volumes:
-    #     - ~/.aspnet/https:/https:ro
-    #   command: 'dotnet run /app/zudio.graph.api/out --urls=http://0.0.0.0:5000'
-    #   depends_on:
-    #     - neo
-    
+  graph_webapp:
+    build:
+      context: .
+    container_name: "zudio_backend"
+    ports:
+      - "5400:5400"
+      - 443
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    command: 'dotnet run /app/zudio.graph.api'
+    depends_on:
+      - neo
+  
     
   # Defining the Neo4j Database Service        
   neo:
