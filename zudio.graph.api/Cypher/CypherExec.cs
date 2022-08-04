@@ -42,15 +42,16 @@ public class CypherExec
         await _clientWrapper.driver.CloseAsync();
     }
 
-    public async Task CreateRelationshipExecute(GraphPayload graphPayload)
+    public async Task CreateRelationshipExecute(GraphRelationshipPayload graphPayload)
     {
 
-        string data = "productA";
+        string node1 = graphPayload.ProductName;
+        string node2 = graphPayload.AnalyticsName;
         IAsyncSession session = _clientWrapper.driver.AsyncSession(o => o.WithDatabase("neo4j"));
         try
         {
-
-            IResultCursor cursor = await session.RunAsync("CREATE (a:Product)", new{ data});
+            IResultCursor cursor = await session.RunAsync("MATCH (a:Product), (b:Analytics) WHERE a.name = $node1 AND b.name = $node2 CREATE (a)-[r:RELTYPE]->(b)"+
+            "RETURN type(r)", new{ node1,node2});
             await cursor.ConsumeAsync();
         }
         finally

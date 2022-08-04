@@ -40,4 +40,10 @@ public class ZudioGraphController : ControllerBase
     {
          _cypherExec.CreateAnalyticsNodeExecute(graphPayload);
     }
+
+    [HttpPost("/Relationship",Name = "AssociateAnalyticsToProducts")]
+    public void Relationship(GraphRelationshipPayload graphPayload)
+    {
+        _cypherExec.CreateRelationshipExecute(graphPayload);
+    }
 }
