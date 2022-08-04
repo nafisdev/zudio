@@ -1,3 +1,4 @@
+using Neo4j.Driver;
 using zudio.graph.api;
 
 public class CypherExec
@@ -8,18 +9,39 @@ public class CypherExec
         _clientWrapper = clientWrapper;
     }
 
-    public async Task execute(GraphPayload graphPayload)
+    public async Task CreateNodeExecute(GraphPayload graphPayload)
     {
-        using (var session = _clientWrapper.driver.AsyncSession())
+
+        string data = "productA";
+        IAsyncSession session = _clientWrapper.driver.AsyncSession(o => o.WithDatabase("neo4j"));
+        try
         {
-            var greeting = session.WriteTransactionAsync(tx =>
-            {
-                var result = tx.RunAsync("CREATE (a:Product) " +
-                                    "SET a.name = $message " +
-                                    "RETURN a.message + ', from node ' + id(a)");
-                                    return null;
-            });
-            Console.WriteLine(greeting);
+
+            IResultCursor cursor = await session.RunAsync("CREATE (a:Product{name:$data})", new{ data});
+            await cursor.ConsumeAsync();
         }
+        finally
+        {
+            await session.CloseAsync();
+        }
+        await _clientWrapper.driver.CloseAsync();
+    }
+
+    public async Task CreateRelationshipExecute(GraphPayload graphPayload)
+    {
+
+        string data = "productA";
+        IAsyncSession session = _clientWrapper.driver.AsyncSession(o => o.WithDatabase("neo4j"));
+        try
+        {
+
+            IResultCursor cursor = await session.RunAsync("CREATE (a:Product)", new{ data});
+            await cursor.ConsumeAsync();
+        }
+        finally
+        {
+            await session.CloseAsync();
+        }
+        await _clientWrapper.driver.CloseAsync();
     }
 }

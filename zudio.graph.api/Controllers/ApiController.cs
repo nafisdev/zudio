@@ -31,6 +31,6 @@ public class ZudioGraphController : ControllerBase
     [HttpPost(Name = "AddProductToGraph")]
     public void Add(GraphPayload graphPayload)
     {
-        // _cypherExec.execute(graphPayload);
+         _cypherExec.CreateNodeExecute(graphPayload);
     }
 }
