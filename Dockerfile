@@ -6,6 +6,13 @@ WORKDIR /app
 COPY . ./
 WORKDIR /app/zudio.api
 RUN dotnet restore
+# Copy everything else and build
+
+RUN dotnet publish -c Release -o out
+
+COPY . ./
+WORKDIR /app/zudio.graph.api
+RUN dotnet restore
 
 # Copy everything else and build
 
