@@ -1,3 +1,11 @@
+# Setup
+docker-compose build
+docker-compose up
+
+# Delete existing nodes
+MATCH (n) DETACH DELETE n
+
+# Create new nodes
 CREATE (ee:Product {name: "HP",org:"OptumCare"})
 CREATE (ee:Product {name: "CMR",org:"OptumCare"})
 

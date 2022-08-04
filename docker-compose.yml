@@ -1,26 +1,26 @@
 version: '3.7'
 services:
 
-  # MySQL service
-  zudio_mysqldb:
-      container_name: "zudio_mysqldb"
-      build: ./docker/mysql
-      hostname: zudio_mysqldb
-      tty: true
-      ports:
-          - '3308:3306'
-      # Environment used to create the relevant DB and user
-      environment:
-          MYSQL_DATABASE: zudio
-          MYSQL_USER: zudio
-          MYSQL_PASSWORD: zudio
-          MYSQL_ROOT_PASSWORD: zudio
-      # Specifying a restart policy for the containerized service
-      restart: always
-      volumes:
-          - ./log/mysql:/var/log/mysql
-      networks:
-          - zudio-network
+  # # MySQL service
+  # zudio_mysqldb:
+  #     container_name: "zudio_mysqldb"
+  #     build: ./docker/mysql
+  #     hostname: zudio_mysqldb
+  #     tty: true
+  #     ports:
+  #         - '3308:3306'
+  #     # Environment used to create the relevant DB and user
+  #     environment:
+  #         MYSQL_DATABASE: zudio
+  #         MYSQL_USER: zudio
+  #         MYSQL_PASSWORD: zudio
+  #         MYSQL_ROOT_PASSWORD: zudio
+  #     # Specifying a restart policy for the containerized service
+  #     restart: always
+  #     volumes:
+  #         - ./log/mysql:/var/log/mysql
+  #     networks:
+  #         - zudio-network
 
   # zudio_webapp:
   #   container_name: "zudio_webapp"
@@ -42,14 +42,15 @@ services:
       context: .
     container_name: "zudio_backend"
     ports:
-      - "5400:5400"
-      - "5240:5240"
-      - 443
+      - target: 5000
+        published: 5000
+        protocol: tcp
+        mode: host
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-    volumes:
-      - ~/.aspnet/https:/https:ro
-    command: 'dotnet run /app/zudio.graph.api'
+    command: 'dotnet run /app/zudio.graph.api/out/zudio.graph.api.dll --environment "Development"'
+    networks:
+      - zudio-network
     depends_on:
       - neo
   
@@ -67,8 +68,10 @@ services:
           - neo4j_data:/data/
       env_file:
           - .env.neo4j
-      # networks:
-      #     - zudio-network
+      environment:
+        - NEO4J_dbms_connector_http_advertised__address=0.0.0.0:7474
+      networks:
+          - zudio-network
         
 
 # volumes to be generated, these are saved somewhere for repeated use by docker
