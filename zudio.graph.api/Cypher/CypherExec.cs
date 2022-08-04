@@ -4,9 +4,11 @@ using zudio.graph.api;
 public class CypherExec
 {
     public Neo4jClientImpl _clientWrapper;
-    public CypherExec(Neo4jClientImpl clientWrapper)
+    private readonly ILogger<CypherExec> _logger;
+    public CypherExec(Neo4jClientImpl clientWrapper,ILogger<CypherExec> logger)
     {
         _clientWrapper = clientWrapper;
+        _logger = logger;
     }
 
     public async Task CreateProductNodeExecute(GraphPayload graphPayload)
@@ -53,6 +55,10 @@ public class CypherExec
             IResultCursor cursor = await session.RunAsync("MATCH (a:Product), (b:Analytics) WHERE a.name = $node1 AND b.name = $node2 CREATE (a)-[r:RELTYPE]->(b)"+
             "RETURN type(r)", new{ node1,node2});
             await cursor.ConsumeAsync();
+        }
+        catch(Exception e)
+        {
+            _logger.Log(LogLevel.Error, e.ToString());
         }
         finally
         {

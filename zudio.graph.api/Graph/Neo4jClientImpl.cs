@@ -11,12 +11,11 @@ public class Neo4jClientImpl
     {
         // configuration.GetSection("NeO4jConnectionSettings").Bind(_graphConfig);
         try{
-        driver = GraphDatabase.Driver("neo4j://localhost:7687", AuthTokens.None);
+        driver = GraphDatabase.Driver("neo4j://0.0.0.0:7687", AuthTokens.None);
         }
         catch(Exception e)
         {
             Console.WriteLine(e.ToString());
-            Console.WriteLine("ga");
         }
     }
 
