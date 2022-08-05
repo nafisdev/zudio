@@ -20,11 +20,9 @@ public class ZudioGraphController : ControllerBase
     [HttpGet(Name = "GetProduct")]
     public IEnumerable<Product> Get()
     {
-        return Enumerable.Range(1, 5).Select(index => new Product
-        {
-            name = "test"
-        })
-        .ToArray();
+        // return _cypherExec.GetGProductNodeExecute(graphPayload);
+        // .ToArray();
+        return null;
     }
 
     
